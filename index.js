@@ -13,7 +13,7 @@ app.use(express.json());
 
 
 // DBConnect();
-mongoose.connect("mongodb://0.0.0.0:27017").then(() => {
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.clke4up.mongodb.net/?retryWrites=true&w=majority`).then(() => {
     console.log("Connected to database");
 });
 
