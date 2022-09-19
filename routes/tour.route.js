@@ -8,6 +8,10 @@ router.route('/')
 
 router.route('/trending')
     .get(tourController.getTrending);
+
+router.route('/cheapest')
+    .get(tourController.getCheapest);
+
 router.route('/:id')
     .get(tourController.getToursById);
 

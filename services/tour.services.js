@@ -47,3 +47,9 @@ exports.getTrendingService = async () => {
     const result = await Tour.find({ view: { $gt: 3 } });
     return result;
 };
+
+exports.getCheapestService = async () => {
+    console.log("in trending service");
+    const result = await Tour.find({}).sort({ price: 1 }).limit(3);
+    return result;
+};
