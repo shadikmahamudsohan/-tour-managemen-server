@@ -3,7 +3,25 @@ const servers = require('../services/tour.services');
 
 exports.getTours = async (req, res, next) => {
     try {
-        const result = await servers.getTourService();
+        const result = await servers.getTourService(req.query);
+
+        res.status(200).json({
+            status: "success",
+            data: result
+        });
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            message: "can't get the data",
+            error: error.message,
+        });
+    }
+};
+
+
+exports.getToursById = async (req, res, next) => {
+    try {
+        const result = await servers.getToursByIdService(req.param);
 
         res.status(200).json({
             status: "success",
