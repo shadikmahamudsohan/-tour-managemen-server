@@ -15,12 +15,19 @@ exports.getTourService = async (query) => {
 
 
 exports.getToursByIdService = async (id) => {
-    const result = await Tour.find({ _id: id });
-    return result;
+    try {
+        console.log(id);
+        const updateView = await Tour.findOneAndUpdate({ _id: id }, { $inc: { view: 1 } });
+        console.log(updateView);
+        const result = await Tour.find({ _id: id });
+        return result;
+
+    } catch (error) {
+        return `${id} don't match`;
+    }
 };
 
 exports.createTourService = async (data) => {
-    console.log(data);
-    const result = await Tour.create(data);
+    const result = await Tour.create({ ...data, view: 0 });
     return result;
 };

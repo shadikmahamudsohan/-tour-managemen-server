@@ -21,7 +21,8 @@ exports.getTours = async (req, res, next) => {
 
 exports.getToursById = async (req, res, next) => {
     try {
-        const result = await servers.getToursByIdService(req.param);
+        const { id } = req.params;
+        const result = await servers.getToursByIdService(id);
 
         res.status(200).json({
             status: "success",
@@ -30,7 +31,7 @@ exports.getToursById = async (req, res, next) => {
     } catch (error) {
         res.status(400).json({
             status: "fail",
-            message: "can't get the data",
+            message: `can't find the data by id: ${id}`,
             error: error.message,
         });
     }
@@ -39,7 +40,6 @@ exports.getToursById = async (req, res, next) => {
 exports.createTour = async (req, res, next) => {
     try {
         //save or create
-        console.log(req.body);
         const tour = await servers.createTourService(req.body);
 
         console.log('tour:', tour);

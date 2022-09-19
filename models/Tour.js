@@ -21,6 +21,10 @@ const toursSchema = mongoose.Schema({
         required: [true, "Please enter the tour price"],
         min: [0, "tour price must be greater than 0"],
     },
+    view: {
+        type: Number,
+        required: true,
+    },
 }, {
     timestamps: true
 });
