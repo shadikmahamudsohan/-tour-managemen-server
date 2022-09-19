@@ -53,7 +53,7 @@ exports.getCheapestService = async () => {
     const result = await Tour.find({}).sort({ price: 1 }).limit(3);
     return result;
 };
-
+//
 exports.updateTourService = async (id, data) => {
     const { name, description, img, price } = data;
     if (name || description || img || price) {
