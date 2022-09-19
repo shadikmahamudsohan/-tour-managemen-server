@@ -1,16 +1,25 @@
 const Tour = require("../models/Tour");
 
 exports.getTourService = async (query) => {
-    console.log(query);
-    const result = await Tour.find({
-        $or: [
-            { name: query?.name },
-            { description: query?.description },
-            { img: query?.img },
-            { price: query?.price },
-        ]
-    });
-    return result;
+    console.log(Object.keys(query).length !== 0);
+    if (Object.keys(query).length !== 0) {
+        const result = await Tour.find({
+            $or: [
+                { name: query?.name },
+                { description: query?.description },
+                { img: query?.img },
+                { price: query?.price },
+            ]
+        });
+
+        console.log('finding data with query');
+        return result;
+    } else {
+        const result = await Tour.find({});
+
+        console.log('finding data with out query');
+        return result;
+    }
 };
 
 
