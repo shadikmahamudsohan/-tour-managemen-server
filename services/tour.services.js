@@ -53,3 +53,16 @@ exports.getCheapestService = async () => {
     const result = await Tour.find({}).sort({ price: 1 }).limit(3);
     return result;
 };
+
+exports.updateTourService = async (id, data) => {
+    const { name, description, img, price } = data;
+    if (name || description || img || price) {
+        console.log(name, description, img, price);
+        const result = await Tour.updateOne({ _id: id }, { $set: data }, {
+            runValidators: true
+        });
+        return result;
+    } else {
+        return `you can only update name, description, img, price, view`;
+    }
+};

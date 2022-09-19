@@ -73,7 +73,6 @@ exports.getCheapest = async (req, res, next) => {
 
 exports.createTour = async (req, res, next) => {
     try {
-        //save or create
         const tour = await servers.createTourService(req.body);
 
         console.log('tour:', tour);
@@ -91,6 +90,26 @@ exports.createTour = async (req, res, next) => {
         res.status(400).json({
             status: 'fail',
             message: "Data is not inserted",
+            error: error.message
+        });
+    }
+};
+
+exports.updateTour = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const result = await servers.updateTourService(id, req.body);
+
+        if (result) {
+            res.status(200).json({
+                status: "success",
+                message: result
+            });
+        }
+    } catch (error) {
+        res.status(400).json({
+            status: 'fail',
+            message: "Couldn't update the product",
             error: error.message
         });
     }
