@@ -31,3 +31,10 @@ exports.createTourService = async (data) => {
     const result = await Tour.create({ ...data, view: 0 });
     return result;
 };
+
+
+exports.getTrendingService = async () => {
+    console.log("in trending service");
+    const result = await Tour.find({ view: { $gt: 3 } });
+    return result;
+};

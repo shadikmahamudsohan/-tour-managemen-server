@@ -37,6 +37,23 @@ exports.getToursById = async (req, res, next) => {
     }
 };
 
+exports.getTrending = async (req, res, next) => {
+    try {
+        const result = await servers.getTrendingService();
+
+        res.status(200).json({
+            status: "success",
+            data: result
+        });
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            message: `can't find the data by id: ${id}`,
+            error: error.message,
+        });
+    }
+};
+
 exports.createTour = async (req, res, next) => {
     try {
         //save or create
