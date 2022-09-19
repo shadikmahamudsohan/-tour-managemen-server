@@ -1,8 +1,10 @@
 const Tour = require("../models/Tour");
 
 exports.getTourService = async (query) => {
-    console.log(Object.keys(query).length !== 0);
-    if (Object.keys(query).length !== 0) {
+    const { page = 1, limit = 10 } = query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    if (query?.name || query?.description || query?.img || query?.price) {
         const result = await Tour.find({
             $or: [
                 { name: query?.name },
@@ -10,14 +12,17 @@ exports.getTourService = async (query) => {
                 { img: query?.img },
                 { price: query?.price },
             ]
-        });
+        })
+            .skip(skip).limit(parseInt(limit));
+        console.log(result);
 
-        console.log('finding data with query');
+        console.log('inside');
         return result;
     } else {
-        const result = await Tour.find({});
+        const result = await Tour.find({})
+            .skip(skip).limit(limit);
 
-        console.log('finding data with out query');
+        console.log('outside');
         return result;
     }
 };
@@ -53,7 +58,7 @@ exports.getCheapestService = async () => {
     const result = await Tour.find({}).sort({ price: 1 }).limit(3);
     return result;
 };
-//
+
 exports.updateTourService = async (id, data) => {
     const { name, description, img, price } = data;
     if (name || description || img || price) {
