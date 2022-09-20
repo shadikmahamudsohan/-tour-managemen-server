@@ -9,28 +9,20 @@ exports.getTourService = async (query) => {
         const sortBy = query.sort.split(',').join(" ");
         queries.sortBy = sortBy;
     }
+    if (query.fields) {
+        const select = query.fields.split(',').join(" ");
+        queries.select = select;
+    }
 
-    if (query?.name || query?.description || query?.img || query?.price) {
-        const result = await Tour.find({
-            $or: [
-                { name: query?.name },
-                { description: query?.description },
-                { img: query?.img },
-                { price: query?.price },
-            ]
-        })
-            .skip(skip).limit(parseInt(limit)).sort(queries?.sortBy);
-        return result;
-    }
-    else if (query?.sort) {
-        const result = await Tour.find({}).sort(queries.sortBy);
-        return result;
-    }
-    else {
-        const result = await Tour.find({})
-            .skip(skip).limit(limit);
-        return result;
-    }
+    const result = await Tour
+        .find({})
+        .skip(skip)
+        .limit(parseInt(limit))
+        .select(queries.select)
+        .sort(queries.sortBy);
+
+    return result;
+
 };
 
 
