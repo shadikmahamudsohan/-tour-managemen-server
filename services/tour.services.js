@@ -3,6 +3,12 @@ const Tour = require("../models/Tour");
 exports.getTourService = async (query) => {
     const { page = 1, limit = 10 } = query;
     const skip = (parseInt(page) - 1) * parseInt(limit);
+    const queries = {};
+
+    if (query.sort) {
+        const sortBy = query.sort.split(',').join(" ");
+        queries.sortBy = sortBy;
+    }
 
     if (query?.name || query?.description || query?.img || query?.price) {
         const result = await Tour.find({
@@ -13,16 +19,16 @@ exports.getTourService = async (query) => {
                 { price: query?.price },
             ]
         })
-            .skip(skip).limit(parseInt(limit));
-        console.log(result);
-
-        console.log('inside');
+            .skip(skip).limit(parseInt(limit)).sort(queries?.sortBy);
         return result;
-    } else {
+    }
+    else if (query?.sort) {
+        const result = await Tour.find({}).sort(queries.sortBy);
+        return result;
+    }
+    else {
         const result = await Tour.find({})
             .skip(skip).limit(limit);
-
-        console.log('outside');
         return result;
     }
 };
